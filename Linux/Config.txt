@@ -1,0 +1,3 @@
+[github username]
+[github password]
+[code editors open folder command (use '{path}' variable to path in command)]
