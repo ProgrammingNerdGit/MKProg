@@ -42,6 +42,6 @@
 
 
 
-##### Thats is it, any question I will glady answer @ __gavindistaso@comcast.net__ 
+##### Thats is it, any question I will glady answer @  
 
 ##### And any ishues you can report in the ishues tab
