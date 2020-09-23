@@ -11,8 +11,8 @@ import stat
 
 now = datetime.datetime.now()
 
-path = sys.argv[0].replace('/mkprog.py','')
-
+path = str(sys.argv[0]).replace(str(sys.argv[0]).split("/")[-1],"")
+print(path)
 
 with open(f"{path}/Config.txt",'r') as f:
     l_con = f.readlines()
@@ -36,20 +36,23 @@ def commitCreate(dirpath,i):
     fullProgramPath = programPath+"/"+sys.argv[2]
     loc = dirpath.replace(fullProgramPath,"")+"/"
     if(loc[0:6] != "/.git/"):
-        with open(f"{fullProgramPath}{loc}{i}",'r') as r:
-            r_con = r.read()
+        if(os.path.getsize(f"{fullProgramPath}{loc}{i}") < 2000000):
+            with open(f"{fullProgramPath}{loc}{i}",'r') as r:
+                r_con = r.read()
+        else:
+            print(f"file {i} too large for automatic upload {os.path.getsize(f'{fullProgramPath}{loc}{i}')}")
         flLoc = str(loc+i).replace("/","/")[1:]
         try:
             repo.create_file(flLoc,f"Edited {i} file",r_con)
             print(f"edited file {i}")
         except:
-            print(f"error on {i} file")
+            print(f"error on {i} file" if i[-3:] != "exe" else f"File {i} too large maybe conpress?")
     
 
 def createRepo(name,description):
     repo = user.create_repo(name.replace(" ","-"),description)
     repo.edit(private=True)
-    os.mkdir(programPath+"/"+name)
+    os.mkdir(programPath+"/"+name) #,int("0777") if getting errors
     with open(programPath+"/"+name+"/LICENSE","w+") as f:
         f.write(licence)
     repo.create_file("LICENSE","Made LICENCE file",licence)
